@@ -1,7 +1,10 @@
 <?php
 include('librerias/motor.php');
-Conexion::getConexion();
-	?>
+session_start();
+if (isset($_SESSION['user'])) {
+	header('location:view/dentro.php');
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +19,7 @@ Conexion::getConexion();
 <body>
 <header>
   <nav class="row">
-    <div class="nav-wrapper green">
+    <div class="nav-wrapper blue">
       <a href="#" class="brand-logo center">rChacon</a>
       <ul id="nav-mobile" class="right">
         <li><a href="view/login.view.php">Login</a></li>
@@ -27,7 +30,7 @@ Conexion::getConexion();
 
 <div class="container">
 	<div class="row">
-		
+
 	</div>
 </div>
 </body>

@@ -31,25 +31,43 @@ if ($verificando) {
 
 	//primera tabla
 	$sql = "
-	CREATE TABLE IF NOT EXISTS `users` (
-		`id` int (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		`usuario` varchar (50) DEFAULT NOT NULL,
-		`clave` varchar (50) DEFAULT NOT NULL,
-		`role` varchar (30) NOT NULL,
-		`fecha` date NOT NULL DEFAULT curdate(),
-	)ENGINE=InnoDB DEFAULT CHARSET=utf8; ";
+	CREATE TABLE `users` (
+		`id` INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		`usuario` VARCHAR (50) NOT NULL,
+		`clave` VARCHAR (50) NOT NULL,
+		`role` VARCHAR (30) NOT NULL,
+		`fecha` DATE
+		);";
+
 	mysqli_query($conn, $sql);
+
+
+	$sql_1 = "
+	CREATE TABLE `publicaciones` (
+		`id` INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		`usuario` VARCHAR (50) NOT NULL,
+		`descripcion` VARCHAR (900) NOT NULL,
+		`estado` VARCHAR (30) NOT NULL,
+		`imagen` VARCHAR (50) NOT NULL,
+		`fecha`  DATE
+		);";
+
+	mysqli_query($conn, $sql_1);
+
+	$insert_user = "INSERT INTO users(usuario,clave,role,fecha) VALUES ('admin','3sf4c1l','admin',NOW())";
+	mysqli_query($conn, $insert_user);	
+
 
 $config = <<<CONF
 	<?php
 	define("DB_HOST", "{$host}");
 	define("DB_USER", "{$user}");
 	define("DB_PASSWORD", "{$password}");
-	define("DB_DB", "{$database}");
+	define("DB_NAME", "{$database}");
 CONF;
 
 	//agregando datos a las constantes en el archivo config
-	file_put_contents("libreria/config_db.php", $config);
+	file_put_contents("../librerias/config_db.php", $config);
 
 	//redirecionando
 	echo "<script>window.location = '../index.php'; </script>";

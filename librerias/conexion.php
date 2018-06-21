@@ -23,12 +23,33 @@ public $conn;
 		return true;
 	}
 
-	public function consultar(){
+	public function consultar($sql){
 		$cx = self::getConexion();
-		$ResultSet = mysql_query($sql);
+		$ResultSet = mysqli_query($cx, $sql);
 		$resultado = array();
 		while ($filas = mysqli_fetch_array($ResultSet)) {
 			$resultado[] = $filas;
+		}
+		return $resultado;
+	}
+
+	public function login($usuario, $clave){
+		$con = self::getConexion();
+		$sql = "SELECT * FROM users WHERE usuario = '{$usuario}' AND clave = '{$clave}'";
+		$query = mysqli_query($con, $sql);
+		$verify = mysqli_num_rows($query);
+
+		if ($verify >= 1) {
+			session_start();
+			$datos = mysqli_fetch_array($query);
+			$_SESSION['id'] = $datos['id'];
+			$_SESSION['user'] = $datos['usuario'];
+			$_SESSION['role'] = $datos['role'];
+
+			header("Location: ../view/dentro.php");
+			
+		}else{
+			echo "sorry baby";
 		}
 	}
 
